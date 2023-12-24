@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+{% load static %}
+{% load get_site_info %}
+{% load_site_info as site %}
+
+{% block title %}Главная{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'WWW/style/main.css' %}">
+{% endblock %}
+
+{% block content %}
+  <header class="header">
+    <div class="header-content">
+      <div class="header-content-wrapper">
+            <span class="header-content-wrapper-text">
+                 гарантия 25 лет гарантия 25 лет гарантия 25 лет гарантия 25 лет гарантия 25 лет гарантия 25 лет гарантия 25 лет
+            </span>
+        <span class="header-content-wrapper-text header-content-wrapper-text-alt">
+                Создаём портреты на холсте в разных стилях Создаём портреты на холсте в разных стилях
+            </span>
+        <span class="header-content-wrapper-text">
+                 Готовность работы от 2х часов Готовность работы от 2х часов Готовность работы от 2х часов Готовность работы от 2х часов
+            </span>
+      </div>
+    </div>
+    <button onclick="openModal('order-modal')" class="header-btn btn">Заказать портрет</button>
+  </header>
+  <section id="about" class="about">
+  <div class="container">
+    <h2 class="about-title g-title">
+        Привет! Мы - Dekkerholst
+        <span>Привет! Мы - Dekkerholst</span>
+    </h2>
+    <p class="about-p">
+      Мы создаем портреты и интерьерные картины на холстах в 18 разных стилях, которые точно доставят Вам эстетическое удовольствие или станут идеальным подарком.
+    </p>
+    <p class="about-p">
+      Для того, чтобы воплощать Ваши самые заветные желания и показать, что интерьерные картины и портреты могут быть стильными и актуальными, мы собрали крутую команду единомышленников! Поверьте, в каждую работу мы вкладываем частичку своей Души.
+    </p>
+    <p class="about-p">
+      Мы помешаны на качестве и уделяем этому большое внимание на каждом из этапов работы. Поэтому, можем смело сказать, что гарантия на наши работы остается с вами на целых <b style="font-size: 20px">25 лет!</b>
+    </p>
+    <p class="about-p about-p-outline">
+      А еще, мы умеем делать даже самые срочные работы. Поэтому, если до мероприятия остается всего пара часов, вы знаете, кому звонить!
+    </p>
+  </div>
+  </section>
+  <section id="works" class="works">
+    <div class="container">
+      <h2 class="works-title g-title">
+        Наши работы
+        <span>Наши работы</span>
+      </h2>
+      <div class="works-slider">
+        <div class="works-slider-prev" onclick="prevSlide()">
+          <svg width="23" height="38" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M20.2255 0.74984L20.3669 0.608425L20.2255 0.749847L22.1874 2.71172C22.9192 3.44362 22.9207 4.62981 22.1905 5.36341L8.85963 18.757L8.71921 18.8981L8.85964 19.0392L22.1905 32.4327C22.9207 33.1663 22.9192 34.3525 22.1874 35.0844L20.2255 37.0463C19.4923 37.7794 18.3037 37.7794 17.5707 37.0463L17.5707 37.0463L0.749847 20.2255L0.608425 20.3669L0.74984 20.2255C0.0167046 19.4924 0.0166912 18.3038 0.749758 17.5707L17.5707 0.749847C18.3038 0.0166931 19.4924 0.0167046 20.2255 0.74984Z"
+                stroke="#232323" stroke-width="0.4"/>
+          </svg>
+        </div>
+        <div class="works-wrapper swiper">
+          <div class="works-wrapper-container swiper-wrapper">
+            {% for slide in works %}
+              <div class="swiper-slide">
+                <div class="works-wrapper-container-item ">
+                  <img src="{{ slide.image.url }}" alt="" class="works-wrapper-container-item-img">
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="works-slider-next" onclick="nextSlide()">
+          <svg width="23" height="38" viewBox="0 0 23 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M2.71173 37.0463L2.5703 37.1877L2.71172 37.0463L0.749841 35.0844C0.0179459 34.3525 0.0165403 33.1663 0.746711 32.4327L14.0776 19.0391L14.218 18.898L14.0776 18.7569L0.74671 5.36343C0.0165402 4.62982 0.0179459 3.44363 0.749841 2.71174L2.71172 0.749861C3.44487 0.0167087 4.63348 0.0167195 5.36654 0.749854L5.36654 0.749861L22.1873 17.5707L22.3288 17.4292L22.1874 17.5707C22.9205 18.3037 22.9205 19.4923 22.1874 20.2255L5.36654 37.0463C4.63339 37.7794 3.44478 37.7794 2.71173 37.0463Z"
+                stroke="#232323" stroke-width="0.4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="order-modal">
+    <div style="display:none;" :style="'display: flex'" class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Ответьте на простые вопросы</div>
+        <div class="modal-subtitle">и получите расчет стоимости портрета в течении 10 минут</div>
+        <div
+            v-show="store.nowScreen <= store.categories.length && store.status === false"
+            class="modal-header-counter">
+          [[ store.nowScreen ]]/[[ store.categories.length ]]
+        </div>
+      </div>
+      <div
+          v-for="category, key in store.categories"
+          v-show="key+1 === store.nowScreen && store.status === false"
+          class="modal-body">
+        <div class="modal-subtitle">[[ category.title ]]</div>
+        <div class="modal-list" :class="{'modal-list-row':category.img}">
+          <label
+              v-for="item in category.data"
+              :for="'m-li-'+item.id"
+              class="modal-list-item"
+          >
+            <input
+                v-model="category.selected"
+                :value="item.id"
+                type="radio"
+                :id="'m-li-'+item.id"
+                class="modal-list-item-check"
+            >
+            <span class="modal-list-item-container">
+                            <img v-show="category.img" :src="item.img" alt="">
+                            <span class="modal-list-item-title">
+                                [[ item.title ]]
+                            </span>
+                        </span>
+          </label>
+
+        </div>
+      </div>
+      <div
+
+          v-show="store.categories.length+1 === store.nowScreen && store.status === false"
+          class="modal-body">
+        <div class="modal-subtitle">
+          {% if site.site_price %}
+            <div>Примерная стоимость: [[ store.price ]] ₽.</div>
+          {% endif %}
+          Введите свои контактные данные и мы свяжемся с вами в ближайшее время.
+        </div>
+        <div class="modal-form">
+          <label class="modal-form-err" v-show="store.callbackFormError.name" for="name">
+            Это обязательное поле
+          </label>
+          <input required v-model="store.callbackForm.name" id="name" type="text" placeholder="Ваше имя"
+                 class="modal-form-item">
+          <label class="modal-form-err" v-show="store.callbackFormError.phone" for="phone">
+            Это обязательное поле
+          </label>
+          <input required v-model="store.callbackForm.phone" id="phone" type="tel"
+                 placeholder="Ваш номер телефона" class="modal-form-item">
+        </div>
+      </div>
+      <div v-show="store.status === true" class="modal-body modal-center">
+        <div class="modal-title">Заказ успешно создан</div>
+        <div class="modal-subtitle">Ожидайте звонка</div>
+      </div>
+      <div class="modal-footer">
+        <button @click="prevModal()" class="btn btn-fill">
+          <span
+              v-show="store.nowScreen === 1">
+              Закрыть
+          </span>
+          <span
+              v-show="store.nowScreen > 1">
+                        Назад
+                    </span>
+        </button>
+        <button @click="nextModal()" v-show="store.status === false" class="btn btn-fill">
+                    <span
+                        v-show="store.nowScreen <= store.categories.length">
+                        Вперёд
+                    </span>
+          <span
+              v-show="store.nowScreen > store.categories.length">
+                        Отправить заявку
+                    </span>
+
+        </button>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.3/swiper-bundle.js"
+          integrity="sha512-BLaug1HQWCAoI27xRTkFyWyxFi/5bo7ed2cL5jxDl06RLMYEIWN2HooEe/4R53p5eN/mYwwLTTmnsl7kGak35w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      let nextSlide, prevSlide
+
+      addEventListener("DOMContentLoaded", () => {
+          const swiper = new Swiper('.swiper', {
+              direction: 'horizontal',
+              loop: true,
+              slidesPerView: 1,
+              autoplay: {
+                  delay: 2000,
+              },
+              breakpoints: {
+                  860: {
+                      slidesPerView: 2,
+                      spaceBetween: 40
+                  },
+                  1100: {
+                      slidesPerView: 3,
+                      spaceBetween: 10,
+                  },
+                  1300: {
+                      slidesPerView: 3,
+                      spaceBetween: 40,
+                  }
+              }
+          });
+
+          nextSlide = () => {
+              swiper.slideNext()
+          }
+          prevSlide = () => {
+              swiper.slidePrev()
+          }
+
+          const {createApp, reactive, onMounted} = Vue
+
+          createApp({
+              delimiters: ['[[', ']]'],
+              setup() {
+                  const store = reactive({
+                      categories: [],
+                      nowScreen: 1,
+                      storePrice: 0,
+                      callbackForm: {
+                          name: "",
+                          phone: ""
+                      },
+                      callbackFormError: {
+                          name: false,
+                          phone: false
+                      },
+                      status: false
+                  })
+                  const nextModal = () => {
+                      if (store.nowScreen <= store.categories.length && store.categories[store.nowScreen - 1].selected !== null) {
+                          store.nowScreen++
+                          getPrice()
+                      } else if (store.nowScreen >= store.categories.length + 1) {
+                          store.callbackFormError.name = store.callbackForm.name.length <= 1;
+                          store.callbackFormError.phone = store.callbackForm.phone.length <= 1;
+                          let body = []
+                          for (let item of store.categories) {
+                              body.push({"id": item.id, "selected": item.selected})
+                          }
+                          fetch({% url 'order_api' %}, {
+                              method: "POST",
+                              body: JSON.stringify({
+                                  "callback": store.callbackForm,
+                                  "data": body
+                              })
+                          })
+                              .then((e) => {
+                                  if (e.ok) {
+                                      store.status = true
+                                  }
+                              })
+                      }
+                  }
+                  const prevModal = () => {
+                      if (!store.status) {
+                          if (store.nowScreen > 1) {
+                              store.nowScreen--
+                          } else {
+                              closeModal('order-modal')
+                          }
+                      } else {
+                          closeModal('order-modal')
+                      }
+                  }
+
+                  const getPrice = () => {
+                      store.price = 0
+                      for (let item of store.categories) {
+                          let el = item.data.find(i => i.id === item.selected)
+                          if (el !== undefined) {
+                              store.price += (el.price * item.coefficient)
+                          }
+                      }
+                  }
+
+                  onMounted(() => {
+                      let data = {{ order|safe }}
+                          store.categories = []
+                      const imgExist = (data) => {
+                          return data.filter(i => i.img !== null).length !== 0
+                      }
+                      for (let item of data) {
+                          store.categories.push({
+                              "title": item.title,
+                              "id": item.id,
+                              "coefficient": item.coefficient,
+                              "data": item.data,
+                              "selected": null,
+                              "img": imgExist(item.data)
+                          })
+                      }
+                  })
+
+                  return {
+                      store,
+                      prevModal,
+                      nextModal,
+                      getPrice
+                  }
+
+              }
+          }).mount('#order-modal')
+        IMask(document.querySelector("#order-modal #phone"), maskOptions);
+      })
+  </script>
+{% endblock %}

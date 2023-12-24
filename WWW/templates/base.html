@@ -1,0 +1,250 @@
+{% load static %}
+{% load get_site_info %}
+
+{% load_site_info as site %}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+  <!-- SWIPER -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <title>DekkerHolst: {% block title %}{% endblock %}</title>
+  <!-- META -->
+  <meta name="description" content="Мы создаем стильные портреты на холсте по вашей фотографии">
+  <meta name="keywords" content="портрет на холсте, портрет по фотографии, подарок любимым, подарок на свадьбу">
+  <meta property="og:url" content="https://artholst.shop">
+  <meta property="og:title" content="Портрет на холсте по фотографии DekkerHolst">
+  <meta property="og:description"
+        content="Изготовление портрета по фото от 1 дня. Художники с опытом работы от 11 лет. Бесплатные правки. Идеальное соотношение цены и качества. Гарантия 25 лет.">
+  <meta property="og:type" content="website">
+
+  {% block head %}
+
+  {% endblock %}
+
+
+</head>
+<body>
+<nav class="nav">
+  <div class="container">
+    <a href="{% url 'main-page' %}" class="nav-logo">
+      <img src="{% static 'WWW/img/logo.svg' %}" alt="logo">
+    </a>
+    <div onclick="toggleNavMenu()" class="nav-menu">
+      <span id="menu-1" class="nav-menu-item"></span>
+      <span id="menu-2" class="nav-menu-item"></span>
+      <span id="menu-3" class="nav-menu-item"></span>
+    </div>
+    <ul class="nav-links">
+      <li class="nav-links-item">
+        <a href="{% url 'main-page' %}#about">О нас</a>
+      </li>
+      <li class="nav-links-item">
+        <a href="{% url 'main-page' %}#works">Наши работы</a>
+      </li>
+      <li class="nav-links-item">
+        <a href="#contacts">Контакты</a>
+      </li>
+      <li class="nav-links-item">
+        <button onclick="openModal('callback-modal')" class="btn btn-fill">Обратная связь</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+
+  {% block content %}
+
+  {% endblock %}
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-wrapper">
+      <ul id="contacts" class="footer-contact">
+        {% if site.con_vk != None %}
+          <li class="footer-contact-item">
+            <a href="{{ site.con_vk }}">ВКонтакте</a>
+          </li>
+        {% endif %}
+        {% if site.con_instagram != None %}
+          <li class="footer-contact-item">
+            <a href="{{ site.con_instagram }}">Instagram</a>
+          </li>
+        {% endif %}
+        {% if site.con_telegram != None %}
+          <li class="footer-contact-item">
+            <a href="{{ site.con_telegram }}">Telegram</a>
+          </li>
+        {% endif %}
+        {% if site.con_whatsapp != None %}
+          <li class="footer-contact-item">
+            <a href="{{ site.con_whatsapp }}">WhatsApp</a>
+          </li>
+        {% endif %}
+        {% if site.con_phone != None %}
+          <li class="footer-contact-item">
+            <a href="tel:{{ site.con_phone }}">{{ site.con_phone }}</a>
+          </li>
+        {% endif %}
+        <li class="footer-contact-item footer-contact-item-btn">
+          <button onclick="openModal('callback-modal')" class="btn btn-fill">Обратная связь</button>
+        </li>
+      </ul>
+      <ul class="footer-links">
+        <li class="footer-links-item">
+          <a href="{% url 'main-page' %}">Главная</a>
+        </li>
+        <li class="footer-links-item">
+          <a href="{% url 'document-policy' %}">Политика конфиденциальности</a>
+        </li>
+        <li class="footer-links-item">
+          <a href="{% url 'document-offer' %}">Договор оферты</a>
+        </li>
+      </ul>
+      <div class="footer-info">
+        <div class="footer-info-title">Информация об организации</div>
+        <div class="footer-info-item">Адрес: {{ site.org_address }}</div>
+        <div class="footer-info-item">E-Mail: {{ site.con_email }}</div>
+        <div class="footer-info-item">ИП: {{ site.org_ip }}</div>
+        <div class="footer-info-item">ОГРНИП: {{ site.org_ogrnip }}</div>
+        <div class="footer-info-item">ИНН: {{ site.org_inn }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="creds">
+    Developed and designed by Ne0_Hack
+  </div>
+</footer>
+<div class="modal" id="callback-modal">
+  <div style="display:none;" :style="'display: flex'" class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Обратная связь</div>
+    </div>
+    <div v-show="store.status === false" class="modal-body">
+      <div class="modal-subtitle">Введите свои данные, и мы свяжемся с вами в ближайшее время</div>
+      <div class="modal-form">
+        <label class="modal-form-err" v-show="store.callbackFormError.name" for="name">
+          Это обязательное поле
+        </label>
+        <input required v-model="store.callbackForm.name" id="name" type="text" placeholder="Ваше имя"
+               class="modal-form-item">
+        <label class="modal-form-err" v-show="store.callbackFormError.phone" for="phone">
+          Это обязательное поле
+        </label>
+        <input required v-model="store.callbackForm.phone" id="phone" type="tel"
+               placeholder="Ваш номер телефона" class="modal-form-item">
+      </div>
+    </div>
+    <div v-show="store.status === true" class="modal-body modal-center">
+      <div class="modal-title">Заявка успешно отправлена</div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="closeModal('callback-modal')" class="btn btn-fill">
+          <span>
+              Закрыть
+          </span>
+      </button>
+      <button v-show="store.status === false" @click="submit()" class="btn btn-fill">
+          <span>
+              Отправить заявку
+          </span>
+
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+    const toggleNavMenu = () => {
+        const menuBtn = document.querySelector(".nav-menu")
+        const navLinks = document.querySelector(".nav-links")
+        menuBtn.classList.toggle("nav-menu--active")
+        navLinks.classList.toggle("nav-links--active")
+
+    }
+    addEventListener("DOMContentLoaded", () => {
+        const navLinks = document.querySelectorAll(".nav-links-item > a")
+        for (let i = 0; navLinks.length; i++) {
+            navLinks[i].addEventListener('click', () => {
+                toggleNavMenu()
+            })
+        }
+    })
+
+</script>
+<script src="https://unpkg.com/imask"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const maskOptions = {
+      mask: '+{7} (000) 000-00-00'
+    };
+    const openModal = (el) => {
+        document.body.style.overflow = "hidden"
+        document.querySelector(`#${el}`).classList.add("modal--active")
+    }
+
+    const closeModal = (el) => {
+        document.body.style.overflow = "auto"
+        document.querySelector(`#${el}`).classList.remove("modal--active")
+    }
+
+    const {createApp, reactive, onMounted} = Vue
+    createApp({
+        delimiters: ['[[', ']]'],
+        setup() {
+            const store = reactive({
+                callbackForm: {
+                    name: "",
+                    phone: ""
+                },
+                callbackFormError: {
+                    name: false,
+                    phone: false
+                },
+                status: false
+            })
+            const submit = () => {
+                store.callbackFormError.name = store.callbackForm.name.length <= 1;
+                store.callbackFormError.phone = store.callbackForm.phone.length <= 1;
+                fetch({% url 'callback_api' %}, {
+                    method: "POST",
+                    body: JSON.stringify(store.callbackForm)
+                })
+                    .then((e) => {
+                        if (e.ok) {
+                            store.status = true
+                        }
+                    })
+            }
+            return {
+                store,
+                submit
+            }
+
+        }
+    }).mount('#callback-modal')
+
+    document.addEventListener("DOMContentLoaded", () => {
+      IMask(document.querySelector("#callback-modal #phone"), maskOptions);
+    })
+
+</script>
+{% block scripts %}
+
+{% endblock %}
+</body>
+</html>
+
+
+

@@ -1,0 +1,154 @@
+@import "style";
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 110px;
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+
+  }
+
+  &-content {
+    width: 100%;
+    &-wrapper {
+      position: relative;
+      overflow: hidden;
+      &-text {
+        animation: marquee 20s infinite linear;
+        display: block;
+        white-space: nowrap;
+        font-size: 48px;
+        -webkit-text-stroke: 1px #232323;
+        color: rgba(35, 35, 35, 0);
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 5.04px;
+        text-transform: uppercase;
+        &-alt {
+          color: #232323;
+          animation: marquee 20s infinite linear reverse;
+
+        }
+      }
+    }
+  }
+
+  &-btn {
+    margin-top: 16px;
+  }
+}
+
+.about {
+  padding-top: 60px;
+  box-sizing: border-box;
+  &-p {
+    &-outline {
+      padding: 10px;
+      box-sizing: border-box;
+      background: #212121;
+      color: #FDFAFA;
+      text-align: center;
+    }
+  }
+}
+
+.works {
+  padding-top: 60px;
+  box-sizing: border-box;
+  &-slider {
+    user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    @mixin slider-btn {
+      position: absolute;
+      cursor: pointer;
+      &:hover {
+        svg {
+          fill: #232323;
+        }
+      }
+    }
+    &-next {
+      @include slider-btn;
+      right: -40px;
+    }
+    &-prev {
+      @include slider-btn;
+      left: -40px;
+    }
+  }
+  &-wrapper {
+    &-container {
+      .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      &-item {
+        display: block;
+        border: 0.4px solid #232323;
+        padding: 5px;
+        box-sizing: border-box;
+        height: 396px;
+
+        &-img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 1150px) {
+  .works {
+    &-wrapper {
+      &-container {
+        &-item {
+          width: 305px;
+          height: 376px;
+
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 860px) {
+  .header {
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-202%);
+      }
+
+    }
+    &-content {
+      &-wrapper {
+        position: relative;
+        overflow: hidden;
+        &-text {
+          animation-duration: 8s;
+          font-size: 36px;
+        }
+      }
+    }
+  }
+  .works {
+    &-slider {
+      width: 80%;
+      margin: 0 auto;
+    }
+  }
+}
